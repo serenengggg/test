@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Lyrics Guessing Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 Spotify Lyrics Guessing Game</h1>
+        </header>
+
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+            <div class="card">
+                <h2>Welcome!</h2>
+                <p>Connect your Spotify account to start playing</p>
+                <button onclick="loginSpotify()" class="btn btn-primary">
+                    Connect with Spotify
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Setup Screen -->
+        <div id="setup-screen" class="screen">
+            <div class="card">
+                <h2>Create Game</h2>
+                <button onclick="createGame()" class="btn btn-primary">
+                    Create New Game
+                </button>
+                <div id="qr-code-section" style="display: none;">
+                    <h3>Invite Players</h3>
+                    <p>Scan this QR code to join the game:</p>
+                    <div id="qr-code"></div>
+                    <p class="game-id">Game ID: <span id="game-id-display"></span></p>
+                    <div id="player-list">
+                        <h4>Players:</h4>
+                        <ul id="players"></ul>
+                    </div>
+                    <button onclick="startGameRound()" class="btn btn-success">
+                        Start Game
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Play Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-info">
+                <div class="round-info">
+                    Round: <span id="current-round">1</span> / <span id="max-rounds">5</span>
+                </div>
+                <div class="timer">
+                    Time: <span id="timer-display">30</span>s
+                </div>
+            </div>
+
+            <div class="card game-card">
+                <div id="song-image" class="song-image"></div>
+                
+                <div class="lyrics-container">
+                    <h3>Lyrics:</h3>
+                    <div id="lyrics-display"></div>
+                    <button onclick="showNextLine()" id="next-line-btn" class="btn btn-secondary">
+                        Show Next Line
+                    </button>
+                </div>
+
+                <div class="guess-container">
+                    <input type="text" id="guess-input" placeholder="Guess the song name..." 
+                           onkeypress="handleGuessKeyPress(event)">
+                    <button onclick="submitGuess()" class="btn btn-primary">
+                        Submit Guess
+                    </button>
+                    <button onclick="skipSong()" class="btn btn-warning">
+                        Skip Song
+                    </button>
+                </div>
+
+                <div id="feedback" class="feedback"></div>
+            </div>
+
+            <div class="scoreboard">
+                <h3>Scoreboard</h3>
+                <div id="scores"></div>
+            </div>
+        </div>
+
+        <!-- Game End Screen -->
+        <div id="end-screen" class="screen">
+            <div class="card">
+                <h2>🏆 Game Over!</h2>
+                <div id="final-scores"></div>
+                <button onclick="location.reload()" class="btn btn-primary">
+                    Play Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Game - Spotify Lyrics Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 Join Game</h1>
+        </header>
+
+        <div id="join-screen" class="screen active">
+            <div class="card">
+                <h2>Enter Your Name</h2>
+                <input type="text" id="player-name" placeholder="Your name" maxlength="20">
+                <button onclick="joinGame()" class="btn btn-primary">
+                    Join Game
+                </button>
+            </div>
+        </div>
+
+        <div id="waiting-screen" class="screen">
+            <div class="card">
+                <h2>✓ Joined Successfully!</h2>
+                <p>Waiting for the host to start the game...</p>
+                <div id="player-list-join">
+                    <h4>Players in lobby:</h4>
+                    <ul id="players-join"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Play Screen (same as host) -->
+        <div id="game-screen" class="screen">
+            <div class="game-info">
+                <div class="round-info">
+                    Round: <span id="current-round">1</span> / <span id="max-rounds">5</span>
+                </div>
+                <div class="timer">
+                    Time: <span id="timer-display">30</span>s
+                </div>
+            </div>
+
+            <div class="card game-card">
+                <div class="lyrics-container">
+                    <h3>Lyrics:</h3>
+                    <div id="lyrics-display"></div>
+                </div>
+
+                <div class="guess-container">
+                    <input type="text" id="guess-input" placeholder="Guess the song name..." 
+                           onkeypress="handleGuessKeyPress(event)">
+                    <button onclick="submitGuess()" class="btn btn-primary">
+                        Submit Guess
+                    </button>
+                </div>
+
+                <div id="feedback" class="feedback"></div>
+            </div>
+
+            <div class="scoreboard">
+                <h3>Scoreboard</h3>
+                <div id="scores"></div>
+            </div>
+        </div>
+
+        <!-- Game End Screen -->
+        <div id="end-screen" class="screen">
+            <div class="card">
+                <h2>🏆 Game Over!</h2>
+                <div id="final-scores"></div>
+                <button onclick="location.reload()" class="btn btn-primary">
+                    Back to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
