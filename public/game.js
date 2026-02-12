@@ -40,7 +40,9 @@ function initSocket() {
         stopTimer();
         
         setTimeout(() => {
-            if (document.getElementById('current-round').textContent < document.getElementById('max-rounds').textContent) {
+            const currentRound = parseInt(document.getElementById('current-round').textContent);
+            const maxRounds = parseInt(document.getElementById('max-rounds').textContent);
+            if (currentRound < maxRounds) {
                 resetForNextRound();
             }
         }, 3000);

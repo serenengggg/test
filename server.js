@@ -23,6 +23,7 @@ const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
 const PORT = process.env.PORT || 3000;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 // Generate random game ID
 function generateGameId() {
@@ -150,7 +151,7 @@ app.get('/api/game/:gameId/qr', async (req, res) => {
   }
 
   try {
-    const gameUrl = `http://localhost:${PORT}/join?game=${gameId}`;
+    const gameUrl = `${BASE_URL}/join?game=${gameId}`;
     const qrCode = await QRCode.toDataURL(gameUrl);
     res.json({ qrCode, gameUrl });
   } catch (error) {
@@ -245,13 +246,14 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Check if guess is correct (case-insensitive, fuzzy match)
+    // Check if guess is correct (case-insensitive match)
     const correctAnswer = game.currentSong.name.toLowerCase();
     const playerGuess = guess.toLowerCase().trim();
     
-    const isCorrect = correctAnswer.includes(playerGuess) || 
-                     playerGuess.includes(correctAnswer) ||
-                     correctAnswer === playerGuess;
+    // Exact match or guess is at least 70% of the song name
+    const isCorrect = correctAnswer === playerGuess ||
+                     (playerGuess.length >= correctAnswer.length * 0.7 && 
+                      correctAnswer.includes(playerGuess));
 
     if (isCorrect) {
       // Award points based on how many lines were shown

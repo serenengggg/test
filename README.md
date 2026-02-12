@@ -51,8 +51,10 @@ SPOTIFY_CLIENT_ID=your_client_id_here
 SPOTIFY_CLIENT_SECRET=your_client_secret_here
 SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
 PORT=3000
-SESSION_SECRET=any_random_string_here
+BASE_URL=http://localhost:3000
 ```
+
+**Note**: For multiplayer on your local network, set `BASE_URL` to your local IP (e.g., `http://192.168.1.100:3000`).
 
 ### 4. Run the Application
 
