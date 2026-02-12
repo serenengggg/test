@@ -155,6 +155,26 @@ http://localhost:3000
 **Issue**: Can't connect to server
 - Solution: Check that the server is running and the PORT in .env matches
 
+## Security Considerations
+
+This is a demonstration project. For production deployment, consider:
+
+1. **Rate Limiting**: Add rate limiting middleware (e.g., `express-rate-limit`) to prevent abuse
+2. **Session Management**: Implement proper session management with secure cookies
+3. **HTTPS**: Use HTTPS in production for secure communication
+4. **Input Validation**: Add comprehensive input validation and sanitization
+5. **Environment Variables**: Never commit `.env` file with real credentials
+6. **CORS Configuration**: Configure CORS appropriately for your domain
+7. **Authentication Tokens**: Implement token refresh logic for long-running sessions
+
+### Security Scan Results
+
+A CodeQL security scan was performed on this codebase. The following items were noted:
+- **Missing Rate Limiting**: The HTML file serving routes do not have rate limiting. For production use, implement rate limiting using middleware like `express-rate-limit`.
+- All user inputs are properly handled through Socket.io event validation
+- No SQL injection vulnerabilities (no database used)
+- No XSS vulnerabilities detected in the codebase
+
 ## License
 
 ISC
